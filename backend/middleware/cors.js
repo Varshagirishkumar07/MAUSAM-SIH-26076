@@ -12,10 +12,13 @@ export function configureCors() {
       // Allow requests with no origin (e.g. mobile apps, curl, server-to-server)
       if (!origin) return callback(null, true);
 
+      const normalizedOrigin = origin.trim().replace(/\/+$/, '');
+
       const isAllowed = config.cors.allowedOrigins.some((allowed) => {
-        if (allowed === origin) return true;
+        const normalizedAllowed = allowed.trim().replace(/\/+$/, '');
+        if (normalizedAllowed === normalizedOrigin) return true;
         // Support any port on localhost during local development
-        if (config.nodeEnv === 'development' && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+        if (config.nodeEnv === 'development' && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(normalizedOrigin)) {
           return true;
         }
         return false;
