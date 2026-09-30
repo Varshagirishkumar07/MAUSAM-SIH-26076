@@ -46,6 +46,14 @@
 
   <!-- External SDKs & Configuration -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Default MAUSAM Configuration (safe public production defaults)
+    window.MAUSAM_CONFIG = window.MAUSAM_CONFIG || {
+      backendUrl: 'https://mausam-backend-1wnf.onrender.com',
+      SUPABASE_URL: 'https://ypvnbepjzarygpfgtlhw.supabase.co',
+      SUPABASE_ANON_KEY: 'sb_publishable_KmgEJgVCarXFb3o-fvvsOw_Rd89gkuf'
+    };
+  </script>
   <script src="js/config.js" onerror="/* Local config is optional */"></script>
   <script src="js/supabase.js"></script>
 

@@ -35,21 +35,46 @@
     'thrissur': { latitude: 10.5276, longitude: 76.2144 }
   });
 
-  const DEFAULT_PROD_BACKEND_URL = 'https://mausam-backend-1wnf.onrender.com';
-  const DEFAULT_LOCAL_BACKEND_URL = 'http://localhost:5000';
+  const PRODUCTION_BACKEND_URL = 'https://mausam-backend-1wnf.onrender.com';
+  const LOCAL_DEV_BACKEND_URL = 'http://localhost:5000';
 
   /**
-   * Resolves the active backend API base URL
+   * Resolves the active backend API base URL with environment detection.
    * Priority:
-   * 1. window.MAUSAM_CONFIG.backendUrl (if explicitly set)
-   * 2. Default production URL: https://mausam-backend-1wnf.onrender.com
+   * 1. If running on GitHub Pages (*.github.io) -> strictly PRODUCTION_BACKEND_URL
+   * 2. If running on any non-local hosted domain -> strictly PRODUCTION_BACKEND_URL
+   * 3. Explicit window.MAUSAM_CONFIG.backendUrl if valid and non-empty
+   * 4. Safe default: PRODUCTION_BACKEND_URL (never falls back to localhost on production)
    * @returns {string}
    */
   function getBackendBaseUrl() {
-    if (typeof window !== 'undefined' && window.MAUSAM_CONFIG && typeof window.MAUSAM_CONFIG.backendUrl === 'string' && window.MAUSAM_CONFIG.backendUrl.trim()) {
-      return window.MAUSAM_CONFIG.backendUrl.trim().replace(/\/+$/, '');
+    if (typeof window !== 'undefined') {
+      const hostname = window.location ? (window.location.hostname || '') : '';
+      const isGitHubPages = hostname.includes('github.io');
+      const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '';
+
+      const configuredUrl = (window.MAUSAM_CONFIG && typeof window.MAUSAM_CONFIG.backendUrl === 'string')
+        ? window.MAUSAM_CONFIG.backendUrl.trim().replace(/\/+$/, '')
+        : '';
+
+      // On GitHub Pages or any hosted production domain:
+      if (isGitHubPages || !isLocalhost) {
+        // Enforce production URL; never use localhost
+        if (configuredUrl && !configuredUrl.includes('localhost') && !configuredUrl.includes('127.0.0.1')) {
+          return configuredUrl;
+        }
+        return PRODUCTION_BACKEND_URL;
+      }
+
+      // During local development:
+      if (configuredUrl) {
+        return configuredUrl;
+      }
+
+      return PRODUCTION_BACKEND_URL;
     }
-    return DEFAULT_PROD_BACKEND_URL;
+
+    return PRODUCTION_BACKEND_URL;
   }
 
   // Internal weather state
