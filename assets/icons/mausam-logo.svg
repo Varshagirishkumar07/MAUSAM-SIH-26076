@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" class="w-full h-full">
+  <!-- Circular Base Badge -->
+  <circle cx="24" cy="24" r="22" fill="#0F284E" stroke="#1D4ED8" stroke-width="1.5"/>
+  <circle cx="24" cy="24" r="19" stroke="#E2E8F0" stroke-opacity="0.15" stroke-dasharray="2 2" stroke-width="1"/>
+  
+  <!-- Stylized Sun Ray Elements -->
+  <path d="M24 8V11" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  <path d="M35.31 12.69L33.19 14.81" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  <path d="M40 24H37" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  <path d="M12.69 12.69L14.81 14.81" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  <path d="M8 24H11" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Sun Core -->
+  <circle cx="24" cy="20" r="6" fill="#F59E0B"/>
+  
+  <!-- Meteorological Cloud -->
+  <path d="M16 29C14.3431 29 13 27.6569 13 26C13 24.47 14.14 23.21 15.63 23.03C15.93 20.73 17.89 19 20.25 19C21.72 19 23.03 19.68 23.86 20.74C24.48 20.28 25.26 20 26.1 20C27.99 20 29.56 21.36 29.87 23.16C31.11 23.46 32 24.62 32 26C32 27.6569 30.6569 29 29 29H16Z" fill="#38BDF8" fill-opacity="0.95"/>
+  <path d="M18 31C16.8954 31 16 30.1046 16 29C16 27.8954 16.8954 27 18 27H33C34.6569 27 36 28.3431 36 30C36 31.6569 34.6569 33 33 33H20C18.8954 33 18 32.1046 18 31Z" fill="#E2E8F0"/>
+  
+  <!-- Radar Wave / Plan Arc -->
+  <path d="M14 36C17 38.5 21 39.5 26 38.5C30 37.7 33.5 35.5 35.5 33" stroke="#60A5FA" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M17 39C20 41 24.5 41.5 28.5 40.5" stroke="#93C5FD" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

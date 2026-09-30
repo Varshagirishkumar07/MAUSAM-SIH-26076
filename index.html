@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAUSAM - Personalized Weather Advisory System | मौसम</title>
+  <meta name="description" content="Personalized Weather Advisory System - Explain what the weather means for your specific plans. SIH Problem Statement 26076.">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/mausam-logo.svg">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind Configuration
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            mausam: {
+              navy: '#0F284E',
+              dark: '#0A1C36',
+              blue: '#1D4ED8',
+              sky: '#38BDF8',
+              amber: '#F59E0B'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-full flex flex-col bg-slate-50 text-slate-800 antialiased selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- Root Application Container -->
+  <div id="app" class="min-h-full flex flex-col">
+    <!-- Rendered dynamically by components.js & app.js -->
+    <noscript>
+      <div class="max-w-xl mx-auto my-12 p-6 bg-amber-50 border border-amber-200 rounded-lg text-amber-900">
+        <h2 class="text-lg font-bold">JavaScript Required</h2>
+        <p class="text-sm mt-1">Please enable JavaScript in your browser to access the MAUSAM Personalized Advisory System.</p>
+      </div>
+    </noscript>
+  </div>
+
+  <!-- External SDKs & Configuration -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js" onerror="/* Local config is optional */"></script>
+  <script src="js/supabase.js"></script>
+
+  <!-- Application Scripts (Loaded in dependency order) -->
+  <script src="js/state.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/weather.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

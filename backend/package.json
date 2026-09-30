@@ -1,0 +1,25 @@
+{
+  "name": "mausam-backend",
+  "version": "1.0.0",
+  "description": "Backend REST API for Personalized MAUSAM Homepage (SIH 26076)",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "mausam",
+    "weather",
+    "express",
+    "node",
+    "sih26076"
+  ],
+  "author": "MAUSAM Team",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}

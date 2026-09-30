@@ -1,0 +1,267 @@
+/**
+ * MAUSAM - Personalized Weather Advisory Application
+ * Problem Statement: SIH 26076
+ * Section 1 Master Stylesheet - Polished for All Viewports (320px to 1440px+)
+ */
+
+/* Custom typography and base overrides */
+:root {
+  --color-gov-primary: #0F284E;
+  --color-gov-primary-dark: #0A1C36;
+  --color-gov-blue-500: #1D4ED8;
+  --color-gov-blue-600: #1E40AF;
+  --color-gov-amber: #D97706;
+  --color-surface: #FFFFFF;
+  --color-surface-subtle: #F8FAFC;
+  --color-border: #E2E8F0;
+}
+
+/* Prevent viewport-level horizontal overflow */
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  color: #1E293B;
+  background-color: #F8FAFC;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accessible focus ring for keyboard navigation */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[role="radio"]:focus-visible,
+[tabindex="0"]:focus-visible {
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
+}
+
+/* Touch target sizing for mobile usability */
+button,
+input,
+select,
+.step-card,
+.slot-chip {
+  touch-action: manipulation;
+}
+
+/* Subtle official government header accent line */
+.gov-top-accent {
+  background: linear-gradient(90deg, #FF9933 0%, #FFFFFF 50%, #138808 100%);
+  height: 4px;
+}
+
+/* Subtle card elevation & borders */
+.mausam-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.mausam-card:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+}
+
+/* Selectable Onboarding Cards */
+.step-card {
+  position: relative;
+  min-height: 48px;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 0.75rem;
+  background-color: #FFFFFF;
+  padding: 0.875rem 1.125rem;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  text-align: left;
+  user-select: none;
+}
+
+.step-card:hover {
+  border-color: #93C5FD;
+  background-color: #F8FAFC;
+  transform: translateY(-1px);
+}
+
+.step-card:active {
+  transform: translateY(0);
+}
+
+.step-card.selected {
+  border-color: #1D4ED8;
+  background-color: #EFF6FF;
+  box-shadow: 0 0 0 1.5px #1D4ED8;
+}
+
+/* Radio-style visual indicator inside selectable cards */
+.radio-indicator {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  border: 2px solid #CBD5E1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+  background-color: #FFFFFF;
+}
+
+.step-card.selected .radio-indicator {
+  border-color: #1D4ED8;
+  background-color: #1D4ED8;
+}
+
+.step-card.selected .radio-indicator::after {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background-color: #FFFFFF;
+}
+
+/* Step Progress Indicator Pills */
+.step-pill {
+  min-height: 36px;
+  transition: all 0.2s ease;
+}
+
+.step-pill.completed {
+  border-color: #93C5FD;
+  background-color: #EFF6FF;
+  color: #1D4ED8;
+  cursor: pointer;
+}
+
+.step-pill.completed:hover {
+  background-color: #DBEAFE;
+}
+
+.step-pill.active {
+  border-color: #1D4ED8;
+  background-color: #1D4ED8;
+  color: #FFFFFF;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(29, 78, 216, 0.25);
+}
+
+.step-pill.upcoming {
+  border-color: #E2E8F0;
+  background-color: #F8FAFC;
+  color: #94A3B8;
+  cursor: not-allowed;
+}
+
+/* Quick Date & Time Slot Chips */
+.slot-chip {
+  min-height: 40px;
+  border: 1.5px solid #E2E8F0;
+  background-color: #FFFFFF;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot-chip:hover {
+  border-color: #93C5FD;
+  background-color: #F8FAFC;
+}
+
+.slot-chip.selected {
+  border-color: #1D4ED8;
+  background-color: #EFF6FF;
+  color: #1D4ED8;
+  font-weight: 600;
+  box-shadow: 0 0 0 1px #1D4ED8;
+}
+
+/* Dashboard Component Styles */
+.verdict-hero-card {
+  position: relative;
+  background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
+  border: 1.5px solid #BFDBFE;
+  border-radius: 0.875rem;
+}
+
+.factor-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.factor-card:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05);
+}
+
+/* Horizontal scrollbar for hourly forecast */
+.hourly-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 0.75rem;
+  padding-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #CBD5E1 #F1F5F9;
+}
+
+.hourly-scroll-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.hourly-scroll-container::-webkit-scrollbar-track {
+  background: #F1F5F9;
+  border-radius: 9999px;
+}
+
+.hourly-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #CBD5E1;
+  border-radius: 9999px;
+}
+
+/* Hourly slot card */
+.hourly-slot-card {
+  flex: 0 0 auto;
+  min-width: 6.25rem;
+  padding: 0.75rem 0.625rem;
+  text-align: center;
+  border: 1px solid #E2E8F0;
+  border-radius: 0.625rem;
+  background-color: #FFFFFF;
+}
+
+.hourly-slot-card.planned-time {
+  border-color: #2563EB;
+  background-color: #EFF6FF;
+  box-shadow: 0 0 0 1px #2563EB;
+}
+
+/* Motion reduction */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
