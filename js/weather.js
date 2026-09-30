@@ -35,9 +35,22 @@
     'thrissur': { latitude: 10.5276, longitude: 76.2144 }
   });
 
-  const BACKEND_BASE_URL = (typeof window !== 'undefined' && window.MAUSAM_CONFIG && window.MAUSAM_CONFIG.backendUrl)
-    ? window.MAUSAM_CONFIG.backendUrl
-    : 'http://localhost:5000';
+  const DEFAULT_PROD_BACKEND_URL = 'https://mausam-backend-1wnf.onrender.com';
+  const DEFAULT_LOCAL_BACKEND_URL = 'http://localhost:5000';
+
+  /**
+   * Resolves the active backend API base URL
+   * Priority:
+   * 1. window.MAUSAM_CONFIG.backendUrl (if explicitly set)
+   * 2. Default production URL: https://mausam-backend-1wnf.onrender.com
+   * @returns {string}
+   */
+  function getBackendBaseUrl() {
+    if (typeof window !== 'undefined' && window.MAUSAM_CONFIG && typeof window.MAUSAM_CONFIG.backendUrl === 'string' && window.MAUSAM_CONFIG.backendUrl.trim()) {
+      return window.MAUSAM_CONFIG.backendUrl.trim().replace(/\/+$/, '');
+    }
+    return DEFAULT_PROD_BACKEND_URL;
+  }
 
   // Internal weather state
   let weatherState = {
@@ -170,7 +183,7 @@
     notifyListeners();
 
     try {
-      const url = new URL(`${BACKEND_BASE_URL}/api/weather`);
+      const url = new URL(`${getBackendBaseUrl()}/api/weather`);
       url.searchParams.set('latitude', lat.toString());
       url.searchParams.set('longitude', lon.toString());
       url.searchParams.set('date', date);
@@ -238,7 +251,7 @@
     notifyListeners();
 
     try {
-      const response = await fetch(`${BACKEND_BASE_URL}/api/analyze`, {
+      const response = await fetch(`${getBackendBaseUrl()}/api/analyze`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -377,6 +390,7 @@
     analyzePlanWeather,
     getAnalysisState,
     getGuidanceState,
+    getBackendUrl: getBackendBaseUrl,
     isContextMatchingWeather,
     isContextMatchingAnalysis,
     resetWeatherState,

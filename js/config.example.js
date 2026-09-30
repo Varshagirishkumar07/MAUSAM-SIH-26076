@@ -9,6 +9,11 @@
  */
 
 window.MAUSAM_CONFIG = {
+  // MAUSAM Backend REST API Base URL
+  // Default / Production: 'https://mausam-backend-1wnf.onrender.com'
+  // Local development: 'http://localhost:5000'
+  backendUrl: 'https://mausam-backend-1wnf.onrender.com',
+
   // Your Supabase project URL (e.g. 'https://your-project-id.supabase.co')
   SUPABASE_URL: '',
 
