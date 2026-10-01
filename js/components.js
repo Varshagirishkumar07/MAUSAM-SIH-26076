@@ -1626,17 +1626,70 @@
     `;
   }
 
-  function renderHourlyForecast(state) {
-    const plannedTime = (window.MausamState && state.time) ? window.MausamState.formatTimeDisplay(state.time) : (state.time || '6:00 PM');
+  function getWeatherConditionIcon(code) {
+    if (code === null || code === undefined) return '☁️';
+    if (code === 0) return '☀️';
+    if (code === 1) return '🌤️';
+    if (code === 2) return '⛅';
+    if (code === 3) return '☁️';
+    if (code === 45 || code === 48) return '🌫️';
+    if ([51, 53, 55, 56, 57].includes(code)) return '🌦️';
+    if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return '🌧️';
+    if ([71, 73, 75, 77, 85, 86].includes(code)) return '🌨️';
+    if ([95, 96, 99].includes(code)) return '⛈️';
+    return '☁️';
+  }
 
-    const hourlySlots = [
-      { label: '-2h Slot', time: 'Earlier', isPlanned: false },
-      { label: '-1h Slot', time: '1h Before', isPlanned: false },
-      { label: 'Planned Time', time: plannedTime, isPlanned: true },
-      { label: '+1h Slot', time: '1h After', isPlanned: false },
-      { label: '+2h Slot', time: '2h After', isPlanned: false },
-      { label: '+3h Slot', time: '3h After', isPlanned: false }
-    ];
+  function renderHourlyForecast(state, weatherData) {
+    const plannedTime = (window.MausamState && state.time) ? window.MausamState.formatTimeDisplay(state.time) : (state.time || '6:00 PM');
+    const hasHourlyWindow = Boolean(weatherData && Array.isArray(weatherData.hourlyWindow) && weatherData.hourlyWindow.length > 0);
+    const hasSingleWeather = Boolean(weatherData && weatherData.weather);
+
+    let hourlySlots = [];
+
+    if (hasHourlyWindow) {
+      hourlySlots = weatherData.hourlyWindow.map((slot) => {
+        let displayTime = slot.defaultLabel || 'Surrounding';
+        if (slot.isPlanned) {
+          displayTime = plannedTime;
+        } else if (slot.time && window.MausamState && typeof window.MausamState.formatTimeDisplay === 'function') {
+          displayTime = window.MausamState.formatTimeDisplay(slot.time);
+        } else if (slot.time) {
+          displayTime = slot.time;
+        }
+
+        const tempVal = (typeof slot.temperature === 'number') ? `${slot.temperature} °C` : '-- °C';
+        const rainVal = (typeof slot.precipitationProbability === 'number') ? `${slot.precipitationProbability} % rain` : '-- % rain';
+        const icon = getWeatherConditionIcon(slot.weatherCode);
+
+        return {
+          label: slot.label,
+          time: displayTime,
+          isPlanned: Boolean(slot.isPlanned),
+          temp: tempVal,
+          rain: rainVal,
+          icon,
+          condition: slot.condition || 'Atmospheric trend'
+        };
+      });
+    } else {
+      hourlySlots = [
+        { label: '-2h Slot', time: 'Earlier', isPlanned: false, temp: '-- °C', rain: '-- % rain', icon: '☁️', condition: '' },
+        { label: '-1h Slot', time: '1h Before', isPlanned: false, temp: '-- °C', rain: '-- % rain', icon: '☁️', condition: '' },
+        {
+          label: 'Planned Time',
+          time: plannedTime,
+          isPlanned: true,
+          temp: (hasSingleWeather && typeof weatherData.weather.temperature === 'number') ? `${weatherData.weather.temperature} °C` : '-- °C',
+          rain: (hasSingleWeather && typeof weatherData.weather.precipitationProbability === 'number') ? `${weatherData.weather.precipitationProbability} % rain` : '-- % rain',
+          icon: hasSingleWeather ? getWeatherConditionIcon(weatherData.weather.weatherCode) : '☁️',
+          condition: hasSingleWeather ? (weatherData.weather.condition || '') : ''
+        },
+        { label: '+1h Slot', time: '1h After', isPlanned: false, temp: '-- °C', rain: '-- % rain', icon: '☁️', condition: '' },
+        { label: '+2h Slot', time: '2h After', isPlanned: false, temp: '-- °C', rain: '-- % rain', icon: '☁️', condition: '' },
+        { label: '+3h Slot', time: '3h After', isPlanned: false, temp: '-- °C', rain: '-- % rain', icon: '☁️', condition: '' }
+      ];
+    }
 
     return `
       <div class="mausam-card p-5 sm:p-6 bg-white border border-slate-200 rounded-xl mb-5">
@@ -1664,15 +1717,17 @@
               <div class="text-xs sm:text-sm font-bold text-slate-900 mt-0.5 whitespace-nowrap">
                 ${slot.time}
               </div>
-              <div class="my-1.5 text-lg" aria-hidden="true">☁️</div>
-              <div class="text-xs font-bold text-slate-700">-- °C</div>
-              <div class="text-[10px] text-slate-400 mt-0.5">-- % rain</div>
+              <div class="my-1.5 text-lg" aria-hidden="true" title="${slot.condition}">${slot.icon}</div>
+              <div class="text-xs font-bold text-slate-700">${slot.temp}</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">${slot.rain}</div>
             </div>
           `).join('')}
         </div>
 
         <p class="text-[11px] text-slate-400 mt-2.5 text-center sm:text-left">
-          Hourly forecast values will populate automatically once the live weather API is connected.
+          ${hasHourlyWindow
+            ? 'Atmospheric trends surrounding your planned window based on live Open-Meteo hourly forecast.'
+            : 'Hourly forecast values will populate automatically once the live weather API is connected.'}
         </p>
       </div>
     `;
@@ -2049,7 +2104,7 @@
         ${renderAdviceSection(state, aData, aStatus)}
         ${renderBestTimeSection(state, aData, aStatus)}
         ${renderRelevantFactors(state, weatherData)}
-        ${renderHourlyForecast(state)}
+        ${renderHourlyForecast(state, weatherData)}
       </section>
     `;
   }

@@ -160,6 +160,57 @@ export async function fetchWeatherForecast({ latitude, longitude, date, time }) 
   const { index, matchedTime } = matchResult;
   const weather = extractWeatherFromHourlyIndex(rawData.hourly, index);
 
+  // Extract 6-slot hourly window surrounding planned time (-2h, -1h, planned, +1h, +2h, +3h)
+  const windowOffsets = [
+    { offset: -2, label: '-2h Slot', defaultLabel: 'Earlier' },
+    { offset: -1, label: '-1h Slot', defaultLabel: '1h Before' },
+    { offset: 0, label: 'Planned Time', defaultLabel: 'Planned Time' },
+    { offset: 1, label: '+1h Slot', defaultLabel: '1h After' },
+    { offset: 2, label: '+2h Slot', defaultLabel: '2h After' },
+    { offset: 3, label: '+3h Slot', defaultLabel: '3h After' }
+  ];
+
+  const hourlyWindow = windowOffsets.map(({ offset, label, defaultLabel }) => {
+    const targetIdx = index + offset;
+    const isPlanned = (offset === 0);
+
+    if (targetIdx >= 0 && targetIdx < rawData.hourly.time.length) {
+      const slotWeather = extractWeatherFromHourlyIndex(rawData.hourly, targetIdx);
+      const isoTime = rawData.hourly.time[targetIdx];
+      const timePart = isoTime ? isoTime.split('T')[1] : null;
+
+      return {
+        offset,
+        label,
+        defaultLabel,
+        isPlanned,
+        time: timePart,
+        isoTime,
+        temperature: slotWeather.temperature,
+        feelsLike: slotWeather.feelsLike,
+        precipitationProbability: slotWeather.precipitationProbability,
+        weatherCode: slotWeather.weatherCode,
+        condition: slotWeather.condition,
+        windSpeed: slotWeather.windSpeed
+      };
+    }
+
+    return {
+      offset,
+      label,
+      defaultLabel,
+      isPlanned,
+      time: null,
+      isoTime: null,
+      temperature: null,
+      feelsLike: null,
+      precipitationProbability: null,
+      weatherCode: null,
+      condition: null,
+      windSpeed: null
+    };
+  });
+
   return {
     success: true,
     source: 'Open-Meteo',
@@ -171,7 +222,8 @@ export async function fetchWeatherForecast({ latitude, longitude, date, time }) 
     date,
     time,
     matchedTime,
-    weather
+    weather,
+    hourlyWindow
   };
 }
 
