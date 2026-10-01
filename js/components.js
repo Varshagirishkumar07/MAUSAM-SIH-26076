@@ -1847,7 +1847,7 @@
         <div class="p-4 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800 flex items-start gap-3">
           <span class="text-xl flex-shrink-0">⚠️</span>
           <div>
-            <h5 class="font-bold">${t('weather_unavailable', lang, 'Guidance Temporarily Unavailable')}</h5>
+            <h5 class="font-bold">${t('guidance_unavailable', lang, 'Guidance Temporarily Unavailable')}</h5>
             <p class="mt-0.5">${analysisStatus.error}</p>
           </div>
         </div>

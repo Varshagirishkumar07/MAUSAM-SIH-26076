@@ -18,11 +18,12 @@ function normalizeOrigin(urlStr) {
   return urlStr.trim().replace(/\/+$/, '');
 }
 
-// Built-in allowed origins for local dev and GitHub Pages production
+// Built-in allowed origins for local dev, GitHub Pages production, and Render deployment
 const baseOrigins = [
   'http://localhost:3000',
   'http://127.0.0.1:3000',
-  'https://varshagirishkumar07.github.io'
+  'https://varshagirishkumar07.github.io',
+  'https://mausam-backend-1wnf.onrender.com'
 ];
 
 const rawFrontendUrl = process.env.FRONTEND_URL ? normalizeOrigin(process.env.FRONTEND_URL) : null;

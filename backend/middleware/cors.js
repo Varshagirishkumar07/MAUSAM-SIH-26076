@@ -22,7 +22,7 @@ export function configureCors() {
           return true;
         }
         return false;
-      });
+      }) || /^https:\/\/([a-zA-Z0-9-]+\.)?onrender\.com$/.test(normalizedOrigin);
 
       if (isAllowed) {
         callback(null, true);
